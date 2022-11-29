@@ -1,0 +1,21 @@
+---
+
+#- debug: msg={{args.php.version}}
+#- debug: msg={{php_config.php}}
+#- debug: msg={{php_config.php[args.php.version]}}
+
+- name: Install PHP
+  tags: [php]
+  when: (opts_inst.versions is defined)
+  #notify: restart apache2
+  loop: "{{opts_inst.versions}}"
+  vars:
+    my_php: "{{gz_php_config.php[item]}}"
+    opts_apt:
+      inst:
+        update_cache: "{{opts_insta.update_cache | default(omit) }}"
+        pkg: "{{my_php.pkg}}"
+  include_role: {name: gz_apt}
+  #debug: var=gz_php_config
+  #apt:  pkg: "{{my_php.pkg}}" }
+

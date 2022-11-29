@@ -1,0 +1,88 @@
+---
+
+gz_php_config:
+  clean: {}
+  clean_item:
+    php_path: /etc/php
+  user_ini: {}
+  php_ini: {}
+  apt:
+    sources:
+      path: '/etc/apt/sources.list.d/'
+      files:
+        - php.list
+    inst:
+      #Error: apt cache update failed
+      #repos:
+      #- ppa:ondrej/php
+      servers:
+      - {keyserver: keyserver.ubuntu.com ,id: '4f4ea0aae5267a6c' } 
+      #- {keyserver: keyserver.ubuntu.com ,id: '78BD65473CB3BD13' } #For Google Pagespeed.  Invalid, load via url instead
+      #key_urls:
+      #- https://dl-ssl.google.com/linux/linux_signing_key.pub #For Google Pagespeed
+
+  inst: {}
+
+  tmp_dir: /tmp/
+
+  php:
+    default: 8.1
+    '8.1':
+      pkg:
+      - php8.1
+      - php8.1-bcmath
+      - php8.1-bz2
+      - php8.1-cgi
+      - php8.1-fpm
+      - php8.1-common
+      - php8.1-curl
+      - php8.1-imagick
+      - php8.1-mbstring
+      - php8.1-mysql
+      - php8.1-xml
+      - php8.1-zip
+      - libapache2-mod-php8.1
+    '8.0':
+      pkg:
+      - php8.0
+      - php8.0-bcmath
+      - php8.0-bz2
+      - php8.0-cgi
+      - php8.0-common
+      - php8.0-curl
+      - php8.0-fpm
+      - php8.0-imagick
+      - php8.0-mbstring
+      - php8.0-mysql
+      - php8.0-xml
+      - php8.0-zip
+      - libapache2-mod-php8.0
+    '7.4':
+      pkg:
+      - php7.4
+      - php7.4-bcmath
+      - php7.4-bz2
+      - php7.4-cgi
+      - php7.4-common
+      - php7.4-curl
+      - php7.4-fpm
+      - php7.4-imagick
+      - php7.4-mbstring
+      - php7.4-mysql
+      - php7.4-xml
+      - php7.4-zip
+      - libapache2-mod-php7.4
+  php_fpm:
+    name: www
+    tpl: www-pool.conf.j2
+    listen: '127.0.0.1:9000'
+    listen_allowed_clients: '127.0.0.1'
+    listen_mode: '0666'
+    user: www-data
+    group: www-data
+    pm: dynamic
+    pm_max_children: 10
+    pm_start_servers: 5
+    pm_min_spare_servers: 5
+    pm_max_spare_servers: 5
+    pm_max_requests: 100

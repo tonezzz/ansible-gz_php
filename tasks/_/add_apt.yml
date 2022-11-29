@@ -1,0 +1,17 @@
+---
+
+- name: apt repos
+  loop: "{{php_config.apt.repos}}"
+  ansible.builtin.apt_repository:
+    repo: "{{item}}"
+
+- name: apt keys
+  loop: "{{php_config.apt.apt_keys}}"
+  apt_key: "{{item}}"
+
+- name: Apt install
+  tags: [xnever]
+  when: php.apt.pkg is defined
+  apt:
+    update_cache: yes
+    pkg: "{{config.apt.pkg}}"

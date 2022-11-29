@@ -1,0 +1,25 @@
+---
+
+- name: restart php8.1-fpm
+  service: name=php8.1-fpm state=reloaded    #reloaded, restarted, started, stopped
+
+- name: restart php8.0-fpm
+  service: name=php8.0-fpm state=reloaded    #reloaded, restarted, started, stopped
+
+- name: restart php7.4-fpm
+  service: name=php7.4-fpm state=reloaded    #reloaded, restarted, started, stopped
+
+- name: restart php7.3-fpm
+  service: name=php7.3-fpm state=reloaded    #reloaded, restarted, started, stopped
+
+- name: restart php7.2-fpm
+  service: name=php7.2-fpm state=reloaded    #reloaded, restarted, started, stopped
+
+- name: restart php7.1-fpm
+  service: name=php7.1-fpm state=reloaded    #reloaded, restarted, started, stopped
+
+- name: restart php7.0-fpm
+  service: name=php7.0-fpm state=reloaded    #reloaded, restarted, started, stopped
+
+- name: restart apache2
+  service: name=apache2 state=reloaded

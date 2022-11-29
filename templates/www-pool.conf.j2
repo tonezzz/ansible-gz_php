@@ -1,0 +1,18 @@
+{{ ansible_managed | comment(decoration='; ') }}
+
+[{{ mypool.name | mandatory }}]
+listen = {{ mypool.listen | mandatory }}
+listen.allowed_clients = {{ mypool.listen_allowed_clients }}
+user = {{ mypool.user }}
+group = {{ mypool.group }}
+
+listen.owner = {{ mypool.user }}
+listen.group = {{ mypool.group }}
+listen.mode = {{ mypool.listen_mode }}
+
+pm = {{ mypool.pm }}
+pm.max_children = {{ mypool.pm_max_children }}
+pm.start_servers = {{ mypool.pm_start_servers }}
+pm.min_spare_servers = {{ mypool.pm_min_spare_servers }}
+pm.max_spare_servers = {{ mypool.pm_max_spare_servers }}
+pm.max_requests = {{ mypool.pm_max_requests }}

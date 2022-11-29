@@ -1,0 +1,21 @@
+---
+
+- name: Setup pool
+  tags: [php_fpm]
+  when: (args.add.fpm is defined)
+  loop: "{{args.add.fpm}}"
+  vars:
+    mypool: "{{ php_config.fpm.pool_default | combine(item,recursive=true) }}"
+    cfg_dir: "/etc/php/{{item.version}}/fpm/pool.d"
+    cfg_file: "{{item.name}}.conf"
+    tpl:
+      src: "{{mypool.tpl}}"
+      dest: "{{cfg_dir}}/{{cfg_file}}"
+      owner: root
+      group: root
+      mode: 0644
+      force: true
+  include_tasks: fpm-item.yml
+  #debug: msg={{res}}
+  #set_fact: { item: { dir: "{{cfg_dir}}", tpl: "{{tpl}}" } }
+  #register: 'res'

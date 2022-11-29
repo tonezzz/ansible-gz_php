@@ -1,0 +1,8 @@
+---
+
+- {name: PHP clean   ,when: (opts_php.to_do.clean is defined)   ,vars: {opts_clean:   "{{ gz_php_config.clean    | combine(opts_php.clean,recursive=True) }}"}   ,include_tasks: clean.yml }
+- {name: PHP php_fpm ,when: (opts_php.to_do.php_fpm is defined) ,vars: {opts_php_fpm: "{{ gz_php_config.php_fpm  | combine(opts_php.php_fpm,recursive=True) }}"} ,include_tasks: php_fpm.yml }
+
+- {name: PHP apt     ,when: (opts_php.apt is defined)  ,vars: {opts_apt:  "{{ gz_php_config.apt | combine(opts_php.apt,recursive=True) }}"} ,include_role: {name: gz_apt} }
+- {name: PHP inst    ,when: (opts_php.inst is defined) ,vars: {opts_inst: "{{ gz_php_config.inst | combine(opts_php.inst,recursive=True) }}"} ,include_tasks: inst.yml }
+

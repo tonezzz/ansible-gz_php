@@ -1,0 +1,22 @@
+---
+
+#- debug: var=item.user
+
+- name: Group
+  ansible.builtin.group:
+    name: "{{item.group}}"
+
+- name: User
+  tags: [xnever]
+  ansible.builtin.user:
+    name: "{{item.user}}"
+    groups: ["{{item.group}}",www-data]
+    append: yes
+
+- name: Pool dir
+  #debug: var=dir.ansible_facts.item.dir
+  file: path="{{cfg_dir}}" state=directory
+
+- name: Pool cfg
+  template: "{{tpl}}"
+  notify: restart php{{item.version}}-fpm

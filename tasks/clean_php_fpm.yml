@@ -1,0 +1,47 @@
+---
+
+- name: Clean up php_fpm per version
+  when: clean_item.ver != 'all'
+  vars:
+    service_name: "php{{clean_item.ver}}-fpm"
+    pool_file: "/etc/php/{{clean_item.ver}}/fpm/pool.d/{{clean_item.name}}.conf"
+  block:
+  - name: "Stopping service: {{service_name}}"
+    ansible.builtin.service:
+      name: "{{service_name}}"
+      state: stopped
+  - name: "Removing php_fpm pool: {{pool_file}}"
+    ansible.builtin.file:
+      path: "{{pool_file}}"
+      state: absent
+  always:
+  - name: "Starting service: {{service_name}}"
+    ansible.builtin.service:
+      name: "{{service_name}}"
+      state: started
+
+- name: Clean up php_fpm for all vesions
+  when: clean_item.ver == 'all'
+  block:
+  - debug: var=clean_item
+  - name: Get version list
+    ansible.builtin.find:
+      path: "{{clean_item.php_path}}"
+      file_type: directory
+    register: result
+  - name: Stop php_fpm services
+    loop: "{{result.files}}"
+    ansible.builtin.service:
+      name: "php{{item.path.split('/').3}}-fpm"
+      state: stopped
+  - name: Del php_fpm config
+    loop: "{{result.files}}"
+    ansible.builtin.file:
+      path: "{{item.path}}/fpm/pool.d/{{clean_item.name}}.conf"
+      state: absent
+    ignore_errors: yes
+  - name: Start php_fpm services
+    loop: "{{result.files}}"
+    ansible.builtin.service:
+      name: "php{{item.path.split('/').3}}-fpm"
+      state: started

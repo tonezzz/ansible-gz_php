@@ -1,0 +1,15 @@
+---
+
+- name: Remove fpm
+  tags: [php_fpm_remove]
+  when: (args.rem.fpm is defined)
+  loop: "{{args.rem.fpm}}"
+  loop_control: {loop_var: rem_fpm_item }
+  #  cmd: >
+  #    rm {{cfg_dir}}/* || /bin/true ;
+  #ignore_errors: yes
+  #shell: "{{cmd}}"
+  #debug: var=rem_fpm_item
+  #debug: msg="/etc/php/{{rem_fpm_item.php}}/fpm/pool.d/{{rem_fpm_item.name}}.conf"
+  ansible.builtin.file: {path: "/etc/php/{{rem_fpm_item.php}}/fpm/pool.d/{{rem_fpm_item.name}}.conf" ,state: absent }
+  notify: restart php{{rem_fpm_item.php}}-fpm

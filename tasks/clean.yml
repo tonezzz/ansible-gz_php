@@ -1,0 +1,10 @@
+---
+
+- debug: var=opts_clean
+
+- name: Clean up php_fpm
+  loop: "{{opts_clean.php_fpm}}"
+  loop_control: {loop_var: _clean_item}
+  vars:
+    clean_item: "{{_clean_item | combine(gz_php_config.clean_item,recursive=True) }}"
+  include_tasks: clean_php_fpm.yml

@@ -1,0 +1,10 @@
+---
+
+- name: Setup pool
+  vars:
+    fpm_opts:
+      cfg_dir: "/etc/php/{{opts_php_fpm.version}}/fpm/pool.d"
+      cfg_file: "{{opts_php_fpm.name}}.conf"
+      service_name: "php{{opts_php_fpm.version}}-fpm"
+    mypool: "{{ opts_php_fpm | combine(fpm_opts,recursive=True) }}"
+  include_tasks: php_fpm_item.yml

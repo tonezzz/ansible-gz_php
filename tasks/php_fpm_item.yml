@@ -1,0 +1,24 @@
+---
+
+- name: Group
+  ansible.builtin.group:
+    name: "{{mypool.group}}"
+
+- name: User
+  ansible.builtin.user:
+    name: "{{mypool.user}}"
+    groups: ["{{mypool.group}}",www-data]
+    append: yes
+
+- name: Pool dir
+  file: path="{{mypool.cfg_dir}}" state=directory
+
+- name: Pool cfg
+  template:
+      src: "{{mypool.tpl}}"
+      dest: "{{mypool.cfg_dir}}/{{mypool.cfg_file}}"
+      owner: root
+      group: root
+      mode: '0644'
+      force: true
+  notify: restart {{mypool.service_name}}
