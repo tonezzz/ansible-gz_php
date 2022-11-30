@@ -86,3 +86,4 @@ gz_php_config:
     pm_min_spare_servers: 5
     pm_max_spare_servers: 5
     pm_max_requests: 100
+    
