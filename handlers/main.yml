@@ -1,5 +1,8 @@
 ---
 
+- name: restart php8.2-fpm
+  service: name=php8.2-fpm state=reloaded    #reloaded, restarted, started, stopped
+
 - name: restart php8.1-fpm
   service: name=php8.1-fpm state=reloaded    #reloaded, restarted, started, stopped
 
